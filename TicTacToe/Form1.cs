@@ -24,6 +24,9 @@ namespace TicTacToe
         }
         private void ClearBoard()
         {
+            selectTimer.Enabled = false;
+            TimeLeftLabel.Font = new Font("Arial", 10, FontStyle.Regular);
+            TimeLeftLabel.Text = "Choose a slot to begin!";
             // Clear whole list in case of restart
             gameBoard.Clear();
             // Fill all indexes with numbers from 1 to 9 in ascending order, to make every index unlike each other and match their button's tag.
@@ -60,6 +63,10 @@ namespace TicTacToe
         }
         private void ButtonClick(object sender, EventArgs e)
         {
+            SelectTimerInt = 5;
+            TimeLeftLabel.Text = SelectTimerInt.ToString();
+            TimeLeftLabel.Font = new Font("Arial", 15, FontStyle.Bold);
+            selectTimer.Enabled = true;
             // Use button as object in further functions
             Button b = (sender as Button);
             // Get the button's tag and store it in a variable
@@ -112,7 +119,7 @@ namespace TicTacToe
                 }
                 if (gameBoard[0 + (1 * i)] == gameBoard[3 + (1 * i)] && gameBoard[3 + (1 * i)] == gameBoard[6 + (1 * i)])
                 {
-                    MatchResultInput(gameBoard[3 + (3 * i)]);
+                    MatchResultInput(gameBoard[3 + (1 * i)]);
                 }
             }
             // Check both diagonal combinations to see if a player achived 3 in a row
@@ -156,6 +163,29 @@ namespace TicTacToe
         private void button11_Click(object sender, EventArgs e)
         {
             ClearBoard();
+        }
+        int SelectTimerInt = 5;
+        private void selectTimer_Tick(object sender, EventArgs e)
+        {
+            SelectTimerInt = SelectTimerInt - 1;
+            TimeLeftLabel.Text = SelectTimerInt.ToString();
+            if (SelectTimerInt <= 0 )
+            {
+                selectTimer.Enabled = false;
+                if (currentPlayer % 2 == 0)
+                {
+                    MatchResultInput("X");
+                }
+                else
+                {
+                    MatchResultInput("O");
+                }
+            }
+        }
+
+        private void TimeLeftLabel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
